@@ -961,12 +961,15 @@ class HomeCoach:
         D = self.HomecoachDevice['dashboard_data']
         return D
 
-    # FIXME: Exclusion of outdated info is not handled (exclude parameter unused)
     def lastData(self, hid=None, exclude=0):
         if hid is not None:
             s = self.HomecoachDevice['dashboard_data']['time_utc']
-            _id = self.HomecoachDevice[hid]
-            return {'When':s}, {'_id':_id}
+            # Define oldest acceptable sensor measure event
+            limit = (time.time() - exclude) if exclude else 0
+            ds = self.HomecoachDevice['dashboard_data']
+            if ds.get('time_utc',limit+10) > limit :
+                _id = self.HomecoachDevice[hid]
+                return {'When':s}, {'_id':_id}
         return {'When': 0 }, {'_id': hid}
 
     def checkNotUpdated(self, res, _id, delay=3600):
