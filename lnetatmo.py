@@ -120,7 +120,7 @@ TYPES = {
     'BNTR'         : ["Bticino module towel rail", 'Home+Control'],
     'BNXM'         : ["Bticino X meter", 'Home+Control'],
 
-    'NACamera'     : ["indoor camera", 'Home + Security'],
+    'NACamera'     : ["indoor camera Welcome", 'Home + Security'],
     'NACamDoorTag' : ["door tag", 'Home + Security'],
     'NAMain'       : ["weather station", 'Weather'],
     'NAModule1'    : ["outdoor unit", 'Weather'],
@@ -138,6 +138,7 @@ TYPES = {
     'NHC'          : ["home coach", 'Aircare'],
     'NIS'          : ["indoor sirene", 'Home + Security'],
     'NDL'          : ["Doorlock", 'Home + Security'],
+    'NPC'          : ["indoor camera Advance", 'Home + Security'],
 
     'NLAO'         : ["Magellan Green power remote control on-off", 'Home+Control'],
     'NLAS'         : ["Magellan Green Power Remote control scenarios", 'Home+Control'],
