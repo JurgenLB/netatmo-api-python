@@ -278,8 +278,6 @@ class ClientAuth:
                 }
         resp = postRequest("authentication", _AUTH_REQ, postParams)
         if not resp:
-            raise AuthFailure("No response received from server.")
-        if not resp:
             raise AuthFailure("Authentication Error from server.")
         if self.refreshToken != resp['refresh_token']:
             self.refreshToken = resp['refresh_token']
