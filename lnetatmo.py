@@ -277,8 +277,7 @@ class ClientAuth:
                 "client_secret" : self._clientSecret
                 }
         resp = postRequest("authentication", _AUTH_REQ, postParams)
-        if not resp:
-            raise AuthFailure("Authentication Error from server.")
+
         if self.refreshToken != resp['refresh_token']:
             self.refreshToken = resp['refresh_token']
             cred = {"CLIENT_ID":self._clientId,
@@ -304,9 +303,8 @@ class User:
         postParams = {
                 "access_token" : authData.accessToken
                 }
-        resp = postRequest("Weather station User", _GETSTATIONDATA_REQ, postParams)
-        if not resp:
-            raise AuthFailure("No response received from server.")
+        resp = postRequest("Station User", _GETSTATIONDATA_REQ, postParams)
+
         self.rawData = resp['body']
         self.devList = self.rawData['devices']
         self.ownerMail = self.rawData['user']['mail']
@@ -335,8 +333,7 @@ class HomeStatus:
                 "home_id": home_id
                 }
         resp = postRequest("home_status", _HOME_STATUS, postParams)
-        if not resp:
-            raise AuthFailure("No response received from server.")
+
         self.resp = resp
         self.rawData = resp['body']['home']
         if not self.rawData : raise NoHome("No home %s found" % home_id)
@@ -395,8 +392,7 @@ class ThermostatData:
                 "access_token" : self.getAuthToken
                 }
         resp = postRequest("Thermostat", _GETTHERMOSTATDATA_REQ, postParams)
-        if not resp:
-            raise AuthFailure("No response received from server.")
+
         self.rawData = resp['body']['devices']
         if not self.rawData : raise NoDevice("No thermostat available")
         #
@@ -493,8 +489,7 @@ class WeatherStationData:
                 "access_token" : self.getAuthToken
                 }
         resp = postRequest("Weather station", _GETSTATIONDATA_REQ, postParams)
-        if not resp:
-            raise AuthFailure("No response received from server.")
+
         self.rawData = resp['body']['devices']
         # Weather data
         if not self.rawData : raise NoDevice("No weather station in any homes")
@@ -680,8 +675,7 @@ class HomeData:
             "access_token" : self.getAuthToken
             }
         resp = postRequest("Home data", _GETHOMEDATA_REQ, postParams)
-        if not resp:
-            raise AuthFailure("No response received from server.")
+
         self.rawData = resp['body']
         # Collect homes
         self.homes = self.rawData['homes'][0]
@@ -794,8 +788,7 @@ class HomeData:
         if camera_data:
             vpn_url = camera_data['vpn_url']
             resp = postRequest("Camera", vpn_url + '/command/ping')
-            if not resp:
-                raise AuthFailure("No response received from server.")
+
             temp_local_url=resp['local_url']
             try:
                 resp = postRequest("Camera", temp_local_url + '/command/ping',timeout=1)
@@ -834,8 +827,7 @@ class HomeData:
             "key" : key
             }
         resp = postRequest("Camera", _GETCAMERAPICTURE_REQ, postParams)
-        if not resp:
-            raise AuthFailure("No response received from server.")
+
         return resp, "jpeg"
 
     def getProfileImage(self, name):
@@ -869,8 +861,7 @@ class HomeData:
             "event_id" : event['id']
         }
         resp = postRequest("Camera", _GETEVENTSUNTIL_REQ, postParams)
-        if not resp:
-            raise AuthFailure("No response received from server.")
+
         eventList = resp['body']['events_list']
         for e in eventList:
             self.events[ e['camera_id'] ][ e['time'] ] = e
@@ -1012,8 +1003,7 @@ class HomesData:
                 }
         #
         resp = postRequest("Module", _GETHOMES_DATA, postParams)
-        if not resp:
-            raise AuthFailure("No response received from server.")
+
 #        self.rawData = resp['body']['devices']
         self.rawData = resp['body']['homes']
         if not self.rawData : raise NoHome("No home %s found" % home)
@@ -1051,8 +1041,7 @@ class HomeCoach:
                 "access_token" : self.getAuthToken
                 }
         resp = postRequest("HomeCoach", _GETHOMECOACH, postParams)
-        if not resp:
-            raise AuthFailure("No response received from server.")
+
         self.rawData = resp['body']['devices']
         # homecoach data
         if not self.rawData : raise NoDevice("No HomeCoach available")
@@ -1100,8 +1089,7 @@ def rawAPI(authData, url, parameters=None):
     if parameters is None: parameters = {}
     parameters["access_token"] = authData.accessToken
     resp = postRequest("rawAPI", fullUrl, parameters)
-    if not resp:
-        raise AuthFailure("No response received from server.")
+
     return resp["body"] if "body" in resp else resp
 
 def filter_home_data(rawData, home):
