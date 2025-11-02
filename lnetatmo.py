@@ -299,6 +299,8 @@ class User:
     """
     warnings.warn("The 'User' class is no longer maintained by Netatmo",
             DeprecationWarning )
+    warnings.warn("The 'User' class code is deprecated.\n" ,
+            RuntimeWarning )
     def __init__(self, authData):
         postParams = {
                 "access_token" : authData.accessToken
@@ -670,6 +672,9 @@ class HomeData:
     def __init__(self, authData, home=None):
         warnings.warn("The 'HomeData' class is deprecated'",
             DeprecationWarning )
+        warnings.warn("The HomeData code is deprecated.\n" ,
+            RuntimeWarning )
+
         self.getAuthToken = authData.accessToken
         postParams = {
             "access_token" : self.getAuthToken
